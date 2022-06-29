@@ -1,3 +1,2 @@
 #!/bin/bash
-chown betty
-echo 'a script that switches the current user to the user betty.'> README.md
+su betty
