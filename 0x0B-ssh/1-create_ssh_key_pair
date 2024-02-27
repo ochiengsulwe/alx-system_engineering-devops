@@ -2,22 +2,7 @@
 # Create an RSA key pair with 4096 bits and passphrase "betty"
 
 
-# Define the path to the private key
-PRIVATE_KEY="$HOME/.ssh/school"
+#!/bin/bash
 
-# Create an empty file if it doesn't exist
-touch "$PRIVATE_KEY"
-
-# Generate RSA key pair if the file is empty
-if [ ! -s "$PRIVATE_KEY" ]; then
-    # Number of bits in the key
-    BITS=4096
-
-    # Passphrase to protect the key
-    PASSPHRASE="betty"
-
-    # Generate RSA key pair
-    ssh-keygen -t rsa -b $BITS -f "$PRIVATE_KEY" -N "$PASSPHRASE"
-else
-    echo "Private key file already exists."
-fi
+# Create an RSA key pair with 4096 bits and passphrase "betty"
+ssh-keygen -t rsa -b 4096 -f ./school -N "betty"
