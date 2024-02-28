@@ -5,5 +5,12 @@
 sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
-sudo echo "Hello, world!" | sudo tee /var/www/html/index.html
+sudo echo "Hello, world!" | sudo tee /var/www/html/index.html >/dev/null
 sudo service nginx restart
+
+response_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/)
+if [ "$response_code" -eq 200 ]; then
+    echo "Nginx is running and returns a 200 status code for /"
+else
+    echo "Nginx is not running or does not return a 200 status code for /"
+fi
