@@ -2,8 +2,18 @@
 # Install nginx
 # Nginx should be listening on port 80
 
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-sudo echo "Hello, world!" | sudo tee /var/www/html/index.html >/dev/null
-sudo service nginx restart
+# Install nginx
+apt-get update
+apt-get install -y nginx
+
+# Configure nginx to listen on port 80
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+
+# Restart nginx without using systemctl
+kill -s HUP $(pgrep -f "nginx: master process")
+
+# Create a simple HTML file with "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+
+# Display success message
+echo "Nginx installed and configured successfully."

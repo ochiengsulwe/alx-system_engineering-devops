@@ -7,24 +7,30 @@ if ! command -v nginx &> /dev/null; then
     sudo apt install -y nginx
 fi
 
-# Configure Nginx redirection
+# Create a configuration file for the redirection
 sudo tee /etc/nginx/sites-available/redirect_me <<EOF
 server {
     listen 80;
     listen [::]:80;
-
     server_name _;
 
     location /redirect_me {
-        return 301 https://www.example.com/new_page;
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
-    # Additional server configuration can be added here
+    # Redirect all other requests to a default location or handle them as needed
+    location / {
+        # You can add your default behavior here, for example:
+        return 404;
+    }
 }
 EOF
 
-# Create a symbolic link to enable the site
+# Create a symbolic link to enable the configuration
 sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
-# Test Nginx configuration and restart Nginx
-sudo nginx -t && sudo systemctl restart nginx
+# Test Nginx configuration
+sudo nginx -t
+
+# If the configuration is successful, reload Nginx to apply changes
+sudo systemctl reload nginx
