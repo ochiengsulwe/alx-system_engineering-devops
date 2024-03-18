@@ -2,14 +2,7 @@
 # Install nginx
 # Nginx should be listening on port 80
 
-
-if ! command -v nginx &> /dev/null; then
-    # Install Nginx
-    apt-get update
-    apt-get install -y nginx
-fi
-
+sudo apt-get update && sudo apt-get install  nginx
 sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-
-# Create a simple HTML file with "Hello World!"
+sudo nginx -t && sudo nginx -s reload
 echo "Hello World!" > /var/www/html/index.html
