@@ -1,36 +1,8 @@
 #!/usr/bin/env bash
-#Configure a new Nginx server so that /redirect_me is redirecting to another page
+#Configure a new Nginx server so that /redirect_me is redirecting to another page.
 
-# Install Nginx if not already installed
-if ! command -v nginx &> /dev/null; then
-    sudo apt update
-    sudo apt install -y nginx
-fi
-
-# Create a configuration file for the redirection
-sudo tee /etc/nginx/sites-available/redirect_me <<EOF
-server {
-    listen 80;
-    listen [::]:80;
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    # Redirect all other requests to a default location or handle them as needed
-    location / {
-        # You can add your default behavior here, for example:
-        return 404;
-    }
-}
-EOF
-
-# Create a symbolic link to enable the configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Test Nginx configuration
-sudo nginx -t
-
-# If the configuration is successful, reload Nginx to apply changes
-sudo systemctl reload nginx
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo sed -i 's|location / {|location / {\n    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;|' /etc/nginx/sites-available/default
+sudo systemctl restart nginx
