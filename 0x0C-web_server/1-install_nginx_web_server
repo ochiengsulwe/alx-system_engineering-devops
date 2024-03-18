@@ -3,6 +3,7 @@
 # Nginx should be listening on port 80
 
 sudo apt-get update && sudo apt-get install  nginx
+sudo ufw allow 'Nginx HTTP'
 sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-sudo nginx -t && sudo nginx -s reload
 echo "Hello World!" > /var/www/html/index.html
+sudo nginx -t && sudo nginx -s reload
