@@ -5,8 +5,8 @@ sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" | sudo tee /var/www/html/index.html >/dev/null
 sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 sudo sed -i 's/listen listen [::]:80 default_server;/listen [::]:80;/g' /etc/nginx/sites-available/default
-sudo sed -i 's/server {/a\	server_name 18.233.62.29;' /etc/nginx/sites-available/default
-sudo sed -i '/server {/a\    root /var/www/html;' /etc/nginx/sites-available/default
-sudo sed -i '/server {/a\    index index.html;' /etc/nginx/sites-available/default
-sudo sed -i '/server {/a\    location /redirect_me {\n        return 301 https://www.example.com/;\n    }' /etc/nginx/sites-available/default
+sudo sed -i 's/server \{/a\	server_name 18.233.62.29;/' /etc/nginx/sites-available/default
+sudo sed -i '/server \{/a\    root /var/www/html;/' /etc/nginx/sites-available/default
+sudo sed -i '/server \{/a\    index index.html;/' /etc/nginx/sites-available/default
+sudo sed -i '/server \{/a\    location \/redirect_me {\\n        return 301 https:\/\/www.example.com\/;\\n    }' /etc/nginx/sites-available/default
 sudo service nginx restart
