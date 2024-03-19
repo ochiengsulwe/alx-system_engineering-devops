@@ -2,7 +2,7 @@
 # Install nginx
 sudo apt-get update && sudo apt-get -y install  nginx
 sudo ufw allow 'Nginx HTTP'
-sudo echo "Hello World!" > /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html >/dev/null
 sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 sudo sed -i 's/listen listen [::]:80 default_server;/listen [::]:80;/g' /etc/nginx/sites-available/default
 sudo sed -i 's/server {/a\	server_name 18.233.62.29;' /etc/nginx/sites-available/default
