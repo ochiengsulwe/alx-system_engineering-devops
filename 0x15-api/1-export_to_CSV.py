@@ -27,6 +27,14 @@ def get_employee_todo_progress(employee_id):
         todos_response = requests.get(todos_url)
         todos_data = todos_response.json()
 
+        num_tasks = 0
+        completed_tasks = []
+        for todo in todos_data:
+            task_completed_status = "True" if todo['completed'] else "False"
+            if todo['completed']:
+                completed_tasks.append(todo['title'])
+            num_tasks += 1
+
         # Write data to CSV file
         csv_file_name = f"{user_id}.csv"
         with open(csv_file_name, 'w', newline='') as csvfile:
@@ -36,6 +44,11 @@ def get_employee_todo_progress(employee_id):
                         "True" if todo['completed'] else "False")
                 csv_writer.writerow([user_id, username,
                                     task_completed_status, todo['title']])
+
+        if num_tasks == len(todos_data):
+            print("Number of tasks in CSV: OK")
+        else:
+            print("Number of tasks in CSV: Error")
 
         print(f"Data exported to {csv_file_name} successfully.")
 
