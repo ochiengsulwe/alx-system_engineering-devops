@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Exports to CSV"""
 
-import requests
 import csv
+import requests
 import sys
 
 
