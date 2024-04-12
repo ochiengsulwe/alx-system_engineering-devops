@@ -5,22 +5,47 @@ import requests
 import sys
 
 
+def get_employee_todo_progress(employee_id):
+    # Base URL of the API
+    base_url = "https://jsonplaceholder.typicode.com"
+
+    # Endpoint for retrieving todos by userId
+    todos_url = f"{base_url}/todos?userId={employee_id}"
+
+    # Endpoint for retrieving user details
+    user_url = f"{base_url}/users/{employee_id}"
+
+    try:
+        # Fetch user details
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        employee_name = user_data['name']
+
+        # Fetch todos for the user
+        todos_response = requests.get(todos_url)
+        todos_data = todos_response.json()
+
+        # Count completed tasks
+        completed_tasks = [todo for todo in todos_data if todo['completed']]
+        num_completed_tasks = len(completed_tasks)
+        total_tasks = len(todos_data)
+
+        # Display progress
+        print(f"Employee {employee_name} \
+              is done with tasks({num_completed_tasks}/{total_tasks}): ")
+
+        # Display completed tasks titles
+        for task in completed_tasks:
+            print(f"\t{task['title']}")
+
+    except requests.exceptions.RequestException as e:
+        print("Error:", e)
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    # Define the URL for the REST API
-    url = "https://jsonplaceholder.typicode.com/"
-
-    # send a GET request to retrieve user info
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-
-    # send a GET request to retrive the TODO list
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
-
-    # filter completed TODO list and store titles in a list
-    completed = [t.get("title") for t in todos if t.get("completed") is True]
-
-    # print employee's name, completed tasks & total no of tasks
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-
-    # print the titles of completed tasks with indentation
-    [print("\t {}".format(c)) for c in completed]
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <employee_id>")
+        sys.exit(1)
+    employee_id = int(sys.argv[1])
+    get_employee_todo_progress(employee_id)
