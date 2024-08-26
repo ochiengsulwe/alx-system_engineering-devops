@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Quering Reddit to get the number of all subscribers.
-    
     Not active users, but total subscribers for a given subreddit.
 """
 
